@@ -41,7 +41,7 @@ class FIRFirestoreService{
                 for document in snapshot.documents{
                     let object = try document.decode(as: objectType.self)
                     objects.append(object)
-                    print("Objekti: \(object)")
+                    //print("Objekti: \(object)")
                 }
                 
                 completion(objects)

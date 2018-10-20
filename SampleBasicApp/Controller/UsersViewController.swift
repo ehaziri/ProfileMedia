@@ -16,9 +16,20 @@ class UsersViewController: UIViewController, UISearchResultsUpdating, UITableVie
     var users: [User] = []
     var searchResults: [User] = []
     var searchController: UISearchController!
+    var activityView:UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+        activityIndicator.color = UIColor(red: 234, green: 168, blue: 80)
+        //Position Activity Indicator in the center of the main view
+        activityIndicator.center = view.center
+        // If needed, you can prevent Acivity Indicator from hiding when stopAnimating() is called
+        activityIndicator.hidesWhenStopped = true
+        // Start Activity Indicator
+        activityIndicator.startAnimating()
+        view.addSubview(activityIndicator)
+        
         //Delegation
         tableView.delegate = self
         tableView.dataSource = self
@@ -31,6 +42,7 @@ class UsersViewController: UIViewController, UISearchResultsUpdating, UITableVie
         FIRFirestoreService.shared.readAll(from: .users, returning: User.self) { (users) in
             self.users = users
             self.tableView.reloadData()
+            activityIndicator.stopAnimating()
         }
         
         // Adding a search bar
@@ -48,7 +60,6 @@ class UsersViewController: UIViewController, UISearchResultsUpdating, UITableVie
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     //UITableViewDataSource Protocol
     
     //Set number of sections in tableView

@@ -21,7 +21,17 @@ class ProfileViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+        activityIndicator.color = UIColor(red: 234, green: 168, blue: 80)
+        //Position Activity Indicator in the center of the main view
+        activityIndicator.center = view.center
+        // If needed, you can prevent Acivity Indicator from hiding when stopAnimating() is called
+        activityIndicator.hidesWhenStopped = true
+        // Start Activity Indicator
+        activityIndicator.startAnimating()
+        view.addSubview(activityIndicator)
+        
         /*
          Retrieve personal information for the current user from the firebase
          */
@@ -40,6 +50,7 @@ class ProfileViewController: UIViewController{
                 let img: UIImage = UIImage(data: data!)!
                 self.profileImg.image = img
             }
+            activityIndicator.stopAnimating()
         }
 
         // Configure navigation bar appearance
